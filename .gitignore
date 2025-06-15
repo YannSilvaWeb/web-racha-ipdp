@@ -1,0 +1,9 @@
+# Dependências do Node.js
+node_modules/
+
+# Arquivo de Banco de Dados
+racha_v2.db
+
+# Logs e arquivos de sistema
+.DS_Store
+npm-debug.log*

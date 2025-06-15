@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - Irmãos Pernas de Pau V2</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+<body>
+    <div class="app-layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-wrapper">
+                    <span class="logo-full">Irmãos PDP</span>
+                    <span class="logo-collapsed">IPDP</span>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="#" class="nav-link active" data-target="dashboard"><i data-feather="grid"></i><span>Dashboard</span></a></li>
+                <li><a href="#" class="nav-link" data-target="atletas"><i data-feather="users"></i><span>Atletas</span></a></li>
+                <li><a href="#" class="nav-link" data-target="financeiro"><i data-feather="dollar-sign"></i><span>Financeiro</span></a></li>
+                <li><a href="#" class="nav-link" data-target="rachas"><i data-feather="calendar"></i><span>Rachas</span></a></li>
+                <li><a href="#" class="nav-link" data-target="ranking"><i data-feather="bar-chart-2"></i><span>Ranking</span></a></li>
+            </ul>
+        </nav>
+        <div class="main-content">
+            <header class="main-header">
+                <div class="header-title-wrapper">
+                    <button id="sidebar-toggle" class="action-button"><i data-feather="menu"></i></button>
+                    <h1 id="main-title">Dashboard</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="primary-button" id="btn-novo-atleta">Novo Atleta +</button>
+                </div>
+            </header>
+            <main id="app">
+                <section id="dashboard" class="content active"></section>
+                <section id="atletas" class="content"></section>
+                <section id="financeiro" class="content"></section>
+                <section id="rachas" class="content"></section>
+                <section id="ranking" class="content"></section>
+            </main>
+        </div>
+    </div>
+
+    <div id="modal-atleta" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 id="modal-titulo">Adicionar Novo Atleta</h3>
+                <button id="btn-fechar-modal" class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="form-atleta" class="form-grid">
+                    <input type="hidden" id="atleta-id">
+                    <div class="form-group"><label for="nome">Nome Completo</label><input type="text" id="nome" required></div>
+                    <div class="form-group"><label for="contato">Contato (WhatsApp)</label><input type="text" id="contato"></div>
+                    <div class="form-group"><label for="data_inicio">Data de Início</label><input type="date" id="data_inicio" required></div>
+                    
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <div class="custom-select-wrapper">
+                            <select id="status" required>
+                                <option value="Mensalista">Mensalista</option>
+                                <option value="Convidado">Convidado</option>
+                                <option value="Goleiro">Goleiro</option>
+                                <option value="Lista de Espera">Lista de Espera</option>
+                                <option value="Inativo">Inativo</option>
+                                <option value="Blacklist">Blacklist</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nível de Habilidade</label>
+                        <div class="star-rating-container" id="star-rating">
+                            <i data-feather="star" data-value="1"></i><i data-feather="star" data-value="2"></i><i data-feather="star" data-value="3"></i><i data-feather="star" data-value="4"></i><i data-feather="star" data-value="5"></i>
+                        </div>
+                        <input type="hidden" id="nivel_habilidade" required>
+                    </div>
+                    <div class="form-group full-width"><label for="observacoes">Observações</label><textarea id="observacoes" rows="3"></textarea></div>
+                    <div class="form-actions"><button type="submit" class="primary-button">Salvar</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
