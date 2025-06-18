@@ -1,13 +1,20 @@
+// =================================================================
+// MÓDULO DE ROTAS: RACHAS
+// Este arquivo define todas as rotas da API relacionadas aos eventos
+// de racha semanais.
+// =================================================================
 
 const express = require('express');
 const sqlite3 = require('sqlite3').verbose();
 const router = express.Router();
 
-const db = new sqlite3.Database('./racha_v2.db', (err) => {
-    if (err) console.error("Erro ao conectar ao banco de dados em 'rachas.js'", err.message);
-});
+// Conecta-se ao banco de dados.
+const db = new sqlite3.Database('./racha_v2.db');
 
-// ROTA PARA CRIAR UM NOVO RACHA (EVENTO)
+// =================================================================
+// ROTA: POST /api/rachas
+// OBJETIVO: Criar um novo evento de racha para uma data específica.
+// =================================================================
 router.post('/', (req, res) => {
     const { data } = req.body;
     if (!data) {
@@ -17,18 +24,23 @@ router.post('/', (req, res) => {
     const sql = `INSERT INTO rachas_semanais (data) VALUES (?)`;
     db.run(sql, [data], function (err) {
         if (err) {
-            // Trata o erro de data duplicada
+            // Trata o erro específico de data duplicada (constraint UNIQUE)
             if (err.message.includes('UNIQUE constraint failed')) {
                 return res.status(400).json({ error: "Já existe um racha agendado para esta data." });
             }
             return res.status(500).json({ error: err.message });
         }
+        // Retorna sucesso com o ID do novo racha criado.
         res.status(201).json({ message: "Racha agendado com sucesso!", id: this.lastID });
     });
 });
 
-// ROTA PARA LISTAR TODOS OS RACHAS AGENDADOS/PASSADOS
+// =================================================================
+// ROTA: GET /api/rachas
+// OBJETIVO: Listar todos os rachas agendados e passados.
+// =================================================================
 router.get('/', (req, res) => {
+    // Ordena por data descendente para mostrar os mais recentes primeiro.
     const sql = `SELECT * FROM rachas_semanais ORDER BY data DESC`;
     db.all(sql, [], (err, rows) => {
         if (err) {
@@ -38,6 +50,6 @@ router.get('/', (req, res) => {
     });
 });
 
-// --- Rotas futuras virão aqui (listar presença, confirmar, etc.) ---
+// Futuramente, adicionaremos mais rotas aqui para gerenciar presenças, etc.
 
 module.exports = router;
