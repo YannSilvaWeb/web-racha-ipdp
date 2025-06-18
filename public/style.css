@@ -1,45 +1,60 @@
 /* ==========================================================
-   ARQUIVO STYLE.CSS - VERSÃO FINAL E CORRIGIDA DA FASE 1
+   ARQUIVO STYLE.CSS - VERSÃO FINAL E COMPLETA DA FASE 1
    ========================================================== */
 
 /* ==========================================================
-   VARIÁVEIS GLOBAIS E ESTILO BASE
-   - :root é usado para declarar variáveis CSS globais.
-   - Facilita a manutenção e a criação de temas.
+   1. VARIÁVEIS GLOBAIS E ESTILO BASE
+   - :root centraliza nossa paleta de cores e fontes.
+   - Facilita a manutenção e futuras mudanças de tema.
    ========================================================== */
 :root {
-    /* Paleta de Cores Principal */
+    /* Cores Principais */
     --cor-primaria: #0D69FF;
     --cor-primaria-hover: #0056D6;
     --cor-fundo-sidebar: #101E40;
     --cor-fundo-main: #F4F7FC;
     --cor-fundo-card: #FFFFFF;
+    
+    /* Cores de Texto */
     --cor-texto-primario: #101E40;
     --cor-texto-secundario: #6C757D;
     --cor-texto-sidebar: #aeb5c2;
-    --cor-borda: #E9ECEF;
-    
-    /* Cores Semânticas para feedbacks visuais (erros, sucessos, etc.) */
-    --cor-sucesso: #28a745;
-    --cor-perigo: #dc3545;
+    --cor-texto-branco: #FFFFFF;
 
-    /* Tipografia */
+    /* Cores de Feedback */
+    --cor-sucesso: #28a745;
+    --cor-alerta: #F6BA50; /* Borda da estrela */
+    --cor-alerta-fill: #FFEA52; /* Fundo da estrela */
+    --cor-perigo: #dc3545;
+    
+    /* Outros */
+    --cor-borda: #E9ECEF;
     --font-principal: 'Inter', sans-serif;
+    --sombra-card: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-/* Reset básico e configurações globais do corpo da página */
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: var(--font-principal); background-color: var(--cor-fundo-main); color: var(--cor-texto-primario); }
+/* Reset básico e configurações globais */
+* { 
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body { 
+    font-family: var(--font-principal);
+    background-color: var(--cor-fundo-main);
+    color: var(--cor-texto-primario);
+}
+
 
 /* ==========================================================
-   LAYOUT PRINCIPAL (APP E SIDEBAR)
+   2. LAYOUT PRINCIPAL E SIDEBAR
    ========================================================== */
 .app-layout { 
     display: grid;
-    /* Define duas colunas: uma para a sidebar e outra para o conteúdo */
     grid-template-columns: 240px 1fr; 
     min-height: 100vh;
-    transition: grid-template-columns 0.3s ease-in-out; /* Animação suave */
+    transition: grid-template-columns 0.3s ease-in-out;
 }
 
 .sidebar { 
@@ -62,73 +77,92 @@ body { font-family: var(--font-principal); background-color: var(--cor-fundo-mai
 .logo-wrapper { 
     font-size: 1.2rem;
     font-weight: 600;
-    color: white; /* Garante que o texto do logo seja branco */
+    color: var(--cor-texto-branco);
     white-space: nowrap;
     text-align: center;
 }
 
 .logo-collapsed { 
-    display: none; /* O logo "IPDP" começa escondido */
+    display: none;
+}
+
+.main-content {
+    /* Adiciona uma transição suave para a aparição do conteúdo */
+    transition: opacity 0.2s ease-in-out;
+}
+
+/* Esconde o conteúdo principal enquanto o JS prepara a tela */
+body.js-loading .main-content {
+    opacity: 0;
+    visibility: hidden;
 }
 
 /* Navegação da Sidebar */
 .sidebar-nav { list-style: none; margin-top: 2rem; width: 100%; }
 .nav-link { display: flex; align-items: center; gap: 1rem; padding: 0.9rem 1rem; margin-bottom: 0.5rem; color: var(--cor-texto-sidebar); text-decoration: none; border-radius: 8px; transition: all 0.3s ease; white-space: nowrap; }
-.nav-link:hover { color: white; background-color: var(--cor-primaria); }
-.nav-link.active { color: white; background-color: var(--cor-primaria); }
+.nav-link:hover, .nav-link.active { color: var(--cor-texto-branco); background-color: var(--cor-primaria); }
 .nav-link span { opacity: 1; transition: opacity 0.2s 0.1s ease-in-out; }
-.nav-link i, .nav-link svg { flex-shrink: 0; /* Impede que o ícone seja "esmagado" ao encolher */ }
+.nav-link i, .nav-link svg { flex-shrink: 0; }
+
 
 /* ==========================================================
-   ESTADO ENCOLHIDO DA SIDEBAR
+   3. ESTADO ENCOLHIDO DA SIDEBAR
    ========================================================== */
 body.sidebar-collapsed .app-layout { 
-    grid-template-columns: 80px 1fr; /* Muda o layout para uma sidebar mais fina */
+    grid-template-columns: 80px 1fr;
 }
+
 body.sidebar-collapsed .sidebar .nav-link { 
-    justify-content: center; /* Centraliza o ícone */
-    padding: 0.9rem 0; /* Remove padding lateral */
+    justify-content: center;
+    padding: 0.9rem 0;
     gap: 0; 
 }
-body.sidebar-collapsed .sidebar .nav-link span {
-    display: none; /* Esconde o texto do link */
+
+body.sidebar-collapsed .sidebar .nav-link span { 
+    display: none;
 }
+
 body.sidebar-collapsed .logo-full { 
-    display: none; /* Esconde o logo completo */
+    display: none;
 }
+
 body.sidebar-collapsed .logo-collapsed { 
-    display: block; /* Mostra o logo com as iniciais */
+    display: block;
     font-size: 1.5rem; 
 }
 
+
 /* ==========================================================
-   HEADER E CONTEÚDO PRINCIPAL
+   4. HEADER E CONTEÚDO PRINCIPAL
    ========================================================== */
-.main-content { padding: 2rem; }
+.main-content { padding: 2rem; overflow-y: auto; }
 .main-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
 .header-title-wrapper { display: flex; align-items: center; gap: 1rem; }
 .main-header h1 { font-size: 1.8rem; font-weight: 600; }
 .header-actions { display: flex; align-items: center; gap: 1rem; }
-.content { display: none; } /* Todas as seções começam escondidas */
-.content.active { display: block; } /* Apenas a seção ativa é mostrada */
+.content { display: none; }
+.content.active { display: block; }
+
 
 /* ==========================================================
-   COMPONENTES REUTILIZÁVEIS (BOTÕES, CARDS, TABELAS)
+   5. COMPONENTES REUTILIZÁVEIS (BOTÕES, CARDS, TABELAS)
    ========================================================== */
-.primary-button { background-color: var(--cor-primaria); color: white; border: none; padding: 0.8rem 1.2rem; border-radius: 8px; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease; }
-.primary-button:hover { background-color: #0056D6; }
+.primary-button { background-color: var(--cor-primaria); color: var(--cor-texto-branco); border: none; padding: 0.8rem 1.2rem; border-radius: 8px; font-weight: 500; cursor: pointer; transition: background-color 0.3s ease; }
+.primary-button:hover { background-color: var(--cor-primaria-hover); }
+
 .action-button { background: none; border: none; cursor: pointer; color: var(--cor-texto-secundario); padding: 0.2rem; border-radius: 6px; }
 #sidebar-toggle:hover { background-color: var(--cor-borda); }
 
-.card { background-color: white; padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+.card { background-color: var(--cor-fundo-card); padding: 1.5rem; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 .table-wrapper { overflow-x: auto; }
 table { width: 100%; border-collapse: collapse; }
 th, td { text-align: left; padding: 1rem; border-bottom: 1px solid var(--cor-borda); }
 th { color: var(--cor-texto-secundario); font-weight: 500; font-size: 0.8rem; text-transform: uppercase; }
 tbody tr:hover { background-color: #f8f9fa; }
 
+
 /* ==========================================================
-   MODAL
+   6. MODAL
    ========================================================== */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; z-index: 1000; }
 .modal-overlay.visible { opacity: 1; visibility: visible; }
@@ -136,147 +170,47 @@ tbody tr:hover { background-color: #f8f9fa; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; border-bottom: 1px solid var(--cor-borda); }
 .close-button { background: none; border: none; font-size: 2rem; cursor: pointer; color: var(--cor-texto-secundario); }
 .modal-body { padding: 1.5rem; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
-.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-.form-group label { font-size: 0.9rem; font-weight: 500; }
-.form-group.full-width, .form-actions { grid-column: 1 / -1; }
-.form-actions { text-align: right; }
+
 
 /* ==========================================================
-   ABAS (TABS)
+   7. FORMULÁRIOS E COMPONENTES CUSTOMIZADOS
+   ========================================================== */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+.form-group label { font-size: 0.9rem; font-weight: 500; color: var(--cor-texto-secundario); }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 0.8rem; border: 1px solid var(--cor-borda); border-radius: 8px; font-size: 1rem; font-family: var(--font-principal); background-color: #FFFFFF; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--cor-primaria); box-shadow: 0 0 0 3px rgba(13, 105, 255, 0.1); }
+.form-group.full-width, .form-actions { grid-column: 1 / -1; }
+.form-actions { text-align: right; margin-top: 1rem; }
+
+/* Select Personalizado */
+.custom-select-wrapper { position: relative; display: inline-block; width: 100%; }
+.custom-select-wrapper::after { content: ''; border: solid var(--cor-texto-secundario); border-width: 0 2px 2px 0; display: inline-block; padding: 3px; transform: rotate(45deg); position: absolute; top: 35%; right: 1rem; pointer-events: none; }
+.custom-select-wrapper select { -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: none; padding-right: 2.5rem; }
+
+/* Estrelas de Avaliação */
+.star-rating-container { display: flex; gap: 0.25rem; cursor: pointer; padding-top: 0.5rem; }
+.star-rating-container svg { color: var(--cor-borda); transition: color 0.2s ease, fill 0.2s ease; fill: var(--cor-borda); }
+.star-rating-container:hover svg.hover, .star-rating-container svg.selected { color: var(--cor-alerta); fill: var(--cor-alerta-fill); }
+
+/* ==========================================================
+   8. ABAS (TABS)
    ========================================================== */
 .tab-nav { display: flex; border-bottom: 2px solid var(--cor-borda); margin-bottom: 1.5rem; }
 .tab-button { background-color: #f1f3f5; border: 1px solid var(--cor-borda); border-bottom: none; padding: 0.8rem 1.2rem; cursor: pointer; font-size: 0.95rem; font-weight: 600; color: var(--cor-texto-secundario); margin-right: 4px; border-top-left-radius: 8px; border-top-right-radius: 8px; transition: all 0.2s ease; }
 .tab-button:hover { background-color: #e9ecef; }
-.tab-button.active { background-color: var(--cor-primaria); color: white; border-color: var(--cor-primaria); }
+.tab-button.active { background-color: var(--cor-primaria); color: var(--cor-texto-branco); border-color: var(--cor-primaria); }
 
 
 /* ==========================================================
-   FORMULÁRIOS
-   ========================================================== */
-.form-grid { 
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-}
-
-.form-group { 
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-.form-group label { 
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--cor-texto-secundario);
-}
-
-.form-group input, 
-.form-group select, 
-.form-group textarea {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid var(--cor-borda);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: var(--font-principal);
-}
-
-.form-group input:focus, 
-.form-group select:focus, 
-.form-group textarea:focus {
-    outline: none;
-    border-color: var(--cor-primaria);
-    box-shadow: 0 0 0 3px rgba(13, 105, 255, 0.1);
-}
-
-.form-group.full-width { 
-    grid-column: 1 / -1; /* Faz o campo ocupar a largura total */
-}
-
-.form-actions { 
-    grid-column: 1 / -1;
-    text-align: right;
-    margin-top: 1rem;
-}
-
-/* ==========================================================
-   COMPONENTE DE AVALIAÇÃO COM ESTRELAS
-   ========================================================== */
-.star-rating-container {
-    display: flex;
-    gap: 0.25rem;
-    cursor: pointer;
-    padding-top: 0.5rem;
-}
-
-.star-rating-container svg {
-    color: var(--cor-borda); /* Cor da estrela vazia */
-    transition: color 0.2s ease, fill 0.2s ease;
-    fill: none;
-}
-
-/* ATUALIZAÇÃO COM AS NOVAS CORES */
-.star-rating-container:hover svg.hover,
-.star-rating-container svg.selected {
-    color: #F6BA50; /* Cor da borda (tom mais escuro) */
-    fill: #FFEA52;  /* Cor do preenchimento (tom mais claro) */
-}
-
-
-/* ==========================================================
-   ESTILO PARA SELECTS PERSONALIZADOS
+   9. AJUSTES FINOS DE EXPERIÊNCIA DO USUÁRIO
    ========================================================== */
 
-/* O container que nos permite posicionar nossa seta personalizada */
-.custom-select-wrapper {
-    position: relative;
-    display: inline-block;
-    width: 100%;
-}
-
-/* A seta personalizada, criada com CSS */
-.custom-select-wrapper::after {
-    content: '';
-    border: solid var(--cor-texto-secundario);
-    border-width: 0 2px 2px 0;
-    display: inline-block;
-    padding: 3px;
-    transform: rotate(45deg);
-    position: absolute;
-    top: 35%;
-    right: 1rem;
-    pointer-events: none; /* Garante que o clique passe para o select abaixo */
-}
-
-/* Modificamos o select original */
-.form-group select {
-    /* Remove a aparência padrão do navegador */
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    /* Garante que a seta padrão não apareça em alguns navegadores */
-    background-image: none;
-    /* Ajusta o padding para a nossa seta não ficar em cima do texto */
-    padding-right: 2.5rem;
-}
-
-
-.form-group input, 
-.form-group select, 
-.form-group textarea {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid var(--cor-borda);
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: var(--font-principal);
-    background-color: #FFFFFF; /* Garante que o fundo seja branco como os outros inputs */
-}
-
-/* ATENÇÃO: Este código provavelmente NÃO terá efeito na maioria dos navegadores */
-select option:hover {
-    background-color: var(--cor-primaria) !important;
-    color: white !important;
+/* Impede que o cursor de texto apareça ao clicar nas linhas da tabela de atletas */
+#lista-atletas-tbody tr {
+    cursor: default; /* Garante que o cursor seja sempre a seta padrão */
+    -webkit-user-select: none; /* Chrome, Safari, Opera */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* Internet Explorer/Edge */
+    user-select: none;         /* Padrão oficial */
 }

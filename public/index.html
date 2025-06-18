@@ -25,6 +25,7 @@
                 <li><a href="#" class="nav-link" data-target="ranking"><i data-feather="bar-chart-2"></i><span>Ranking</span></a></li>
             </ul>
         </nav>
+
         <div class="main-content">
             <header class="main-header">
                 <div class="header-title-wrapper">
@@ -35,15 +36,43 @@
                     <button class="primary-button" id="btn-novo-atleta">Novo Atleta +</button>
                 </div>
             </header>
+
             <main id="app">
                 <section id="dashboard" class="content active"></section>
-                <section id="atletas" class="content"></section>
+                
+                <section id="atletas" class="content">
+                    <div class="card">
+                        <div class="tab-nav">
+                            <button class="tab-button active" data-status="Mensalista">Mensalistas</button>
+                            <button class="tab-button" data-status="Convidado">Convidados</button>
+                            <button class="tab-button" data-status="Goleiro">Goleiros</button>
+                            <button class="tab-button" data-status="Lista de Espera">Lista de Espera</button>
+                            <button class="tab-button" data-status="Blacklist">Blacklist</button>
+                            <button class="tab-button" data-status="Inativo">Inativos</button>
+                        </div>
+                        <div class="table-wrapper">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nome do Atleta</th>
+                                        <th>Contato</th>
+                                        <th>Data de Início</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="lista-atletas-tbody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
                 <section id="financeiro" class="content"></section>
                 <section id="rachas" class="content"></section>
                 <section id="ranking" class="content"></section>
             </main>
         </div>
     </div>
+
     <div id="modal-atleta" class="modal-overlay">
         <div class="modal-container">
             <div class="modal-header">
@@ -57,14 +86,27 @@
                     <div class="form-group"><label for="contato">Contato (WhatsApp)</label><input type="text" id="contato"></div>
                     <div class="form-group"><label for="data_inicio">Data de Início</label><input type="date" id="data_inicio" required></div>
                     <div class="form-group"><label for="status">Status</label><div class="custom-select-wrapper"><select id="status" required><option value="Mensalista">Mensalista</option><option value="Convidado">Convidado</option><option value="Goleiro">Goleiro</option><option value="Lista de Espera">Lista de Espera</option><option value="Inativo">Inativo</option><option value="Blacklist">Blacklist</option></select></div></div>
-                    <div class="form-group"><label>Nível de Habilidade</label><div class="star-rating-container" id="star-rating"><i data-feather="star" data-value="1"></i><i data-feather="star" data-value="2"></i><i data-feather="star" data-value="3"></i><i data-feather="star" data-value="4"></i><i data-feather="star" data-value="5"></i></div><input type="hidden" id="nivel_habilidade" required></div>
+                    
+                    <div class="form-group">
+                        <label>Nível de Habilidade</label>
+                        <div class="star-rating-container" id="star-rating">
+                            <i data-feather="star" data-value="1"></i>
+                            <i data-feather="star" data-value="2"></i>
+                            <i data-feather="star" data-value="3"></i>
+                            <i data-feather="star" data-value="4"></i>
+                            <i data-feather="star" data-value="5"></i>
+                        </div>
+                        <input type="hidden" id="nivel_habilidade" required>
+                    </div>
+                    
                     <div class="form-group full-width"><label for="observacoes">Observações</label><textarea id="observacoes" rows="3"></textarea></div>
                     <div class="form-actions"><button type="submit" class="primary-button">Salvar</button></div>
                 </form>
             </div>
         </div>
     </div>
+
     <script src="script.js"></script>
-    <script>feather.replace()</script>
+    <script>feather.replace();</script>
 </body>
 </html>
